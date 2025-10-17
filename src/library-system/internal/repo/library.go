@@ -41,7 +41,9 @@ type BookWithCount struct {
 }
 
 func (r *libraryRepo) CountLibrariesByCity(ctx context.Context, city string) (int, error) {
-	query := qb.Select("COUNT(*)").From("library").Where("city = ?", city)
+	query := qb.Select("COUNT(*)").
+		From("library").
+		Where("city = ?", city)
 	sql, args, err := query.ToSql()
 	if err != nil {
 		return 0, fmt.Errorf("failed to build count query: %w", err)
