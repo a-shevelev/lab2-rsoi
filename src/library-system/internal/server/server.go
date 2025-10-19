@@ -13,7 +13,7 @@ import (
 )
 
 type Server struct {
-	Host      string `envconfig:"HOST" required:"true"`
+	Host      string `envconfig:"HOST"`
 	Port      int    `envconfig:"PORT" required:"true"`
 	DB        postgres.Client
 	GinRouter *gin.Engine

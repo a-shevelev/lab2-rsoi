@@ -67,7 +67,7 @@ func (h *LibraryHandler) GetBooks(c *gin.Context) {
 	var req dto.GetBooksRequest
 
 	if err := c.ShouldBindUri(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error1": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
