@@ -20,6 +20,7 @@ func (h *ReservationHandler) RegisterRoutes(rg *gin.RouterGroup) {
 	routes := rg.Group("/reservations")
 	routes.GET("/", h.GetReservations)
 	routes.POST("/", h.CreateReservation)
+	routes.POST("/:uid/return/", h.ReturnBook)
 }
 
 func (h *ReservationHandler) GetReservations(c *gin.Context) {
@@ -57,4 +58,33 @@ func (h *ReservationHandler) CreateReservation(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, reservation)
+}
+
+func (h *ReservationHandler) ReturnBook(c *gin.Context) {
+	username := c.GetHeader("X-User-Name")
+	if username == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "X-User-Name header required"})
+		return
+	}
+	var req dto.ReturnReservationRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	var reqURI struct {
+		ReservationUID string `uri:"uid" binding:"required"`
+	}
+
+	if err := c.ShouldBindUri(&reqURI); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	err := h.Service.ReturnBook(username, req, reqURI.ReservationUID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.Status(http.StatusNoContent)
 }

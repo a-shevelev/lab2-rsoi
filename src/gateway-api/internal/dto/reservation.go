@@ -6,6 +6,10 @@ type CreateReservationRequest struct {
 	TillDate   string `json:"tillDate" binding:"required,datetime=2006-01-02"`
 }
 
+type ReturnReservationRequest struct {
+	Date      string `json:"date" binding:"required,datetime=2006-01-02"`
+	Condition string `json:"condition" binding:"required"`
+}
 type ReservationResponse struct {
 	ReservationUID string `json:"reservationUid"`
 	Username       string `json:"username"`

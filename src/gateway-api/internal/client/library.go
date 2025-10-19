@@ -14,7 +14,6 @@ type Library struct {
 	HTTPClient *http.Client
 }
 
-// NewLibraryClient создаёт новый клиент для LibraryService
 func NewLibrary(baseURL string) *Library {
 	return &Library{
 		BaseURL:    baseURL,

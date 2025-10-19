@@ -87,6 +87,7 @@ func (r *reservationService) UpdateStatus(ctx context.Context, reservationUID uu
 		return err
 	}
 	status := "RETURNED"
+	fmt.Println(returnDate)
 	if returnDate.After(res.TillDate) {
 		status = "EXPIRED"
 	}

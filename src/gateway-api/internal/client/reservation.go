@@ -160,7 +160,6 @@ func (c *Reservation) UpdateStatus(uid string, date string) error {
 	}
 	defer resp.Body.Close()
 
-	// этот хендлер возвращает 204 No Content
 	if resp.StatusCode != http.StatusNoContent {
 		return fmt.Errorf("unexpected status: %d", resp.StatusCode)
 	}

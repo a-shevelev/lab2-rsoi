@@ -7,5 +7,5 @@ type RatingResponse struct {
 }
 
 type UpdateRatingRequest struct {
-	StarsDiff int `uri:"stars_diff" binding:"required,min=1,max=100,ne=0""`
+	StarsDiff int `uri:"stars_diff" binding:"required,ne=0"`
 }

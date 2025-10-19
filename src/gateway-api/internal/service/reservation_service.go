@@ -74,3 +74,42 @@ func (s *ReservationService) CreateReservation(username string, req dto.CreateRe
 
 	return &fullRes, nil
 }
+
+func (s *ReservationService) ReturnBook(
+	username string,
+	req dto.ReturnReservationRequest,
+	reservationUID string) error {
+	rate := 1
+	err := s.ClientRes.UpdateStatus(reservationUID, req.Date)
+	if err != nil {
+		return fmt.Errorf("failed to update status: %s", err)
+	}
+	res, err := s.ClientRes.GetByUID(reservationUID)
+	if err != nil {
+		return fmt.Errorf("failed to get reservation by uid: %s", err)
+	}
+	if res.Status == "EXPIRED" {
+		rate = -10
+	}
+	book, err := s.ClientLib.GetBookByUID(res.BookUID)
+	if err != nil {
+		return fmt.Errorf("failed to get book by uid: %s", err)
+	}
+	if book.Condition != req.Condition {
+		rate = -10
+		err = s.ClientLib.UpdateBookCondition(res.BookUID, req.Condition)
+		if err != nil {
+			return fmt.Errorf("failed to update book condition: %s", err)
+		}
+	}
+
+	err = s.ClientLib.UpdateBookCount(res.LibraryUID, res.BookUID, 1)
+	if err != nil {
+		return fmt.Errorf("failed to update book count: %s", err)
+	}
+	err = s.ClientRate.Update(username, rate)
+	if err != nil {
+		return fmt.Errorf("failed to update rate: %s", err)
+	}
+	return nil
+}
