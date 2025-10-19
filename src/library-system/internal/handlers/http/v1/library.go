@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"lab2-rsoi/library-system/internal/dto"
 	"lab2-rsoi/library-system/internal/service"
 	"net/http"
@@ -47,11 +48,12 @@ func (h *LibraryHandler) GetLibraries(c *gin.Context) {
 
 	page := req.Page
 	size := req.Size
+	fmt.Println(req.Page, req.Size)
 	if page == 0 {
-		page = 1
+		page = 0
 	}
 	if size == 0 {
-		size = 10
+		size = 0
 	}
 
 	resp, err := h.service.ListLibraries(c, req.City, page, size)

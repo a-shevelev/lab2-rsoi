@@ -5,19 +5,19 @@ import (
 )
 
 type CreateReservationRequest struct {
-	BookUID    string `json:"book_uid" binding:"required"`
-	LibraryUID string `json:"library_uid" binding:"required"`
-	TillDate   string `json:"till_date" binding:"required,datetime=2006-01-02"`
+	BookUID    string `json:"bookUid" binding:"required"`
+	LibraryUID string `json:"libraryUid" binding:"required"`
+	TillDate   string `json:"tillUid" binding:"required,datetime=2006-01-02"`
 }
 
 type ReservationResponse struct {
-	ReservationUID string `json:"reservation_uid"`
+	ReservationUID string `json:"reservationUid"`
 	Username       string `json:"username"`
-	BookUID        string `json:"book_uid"`
-	LibraryUID     string `json:"library_uid"`
+	BookUID        string `json:"bookUid"`
+	LibraryUID     string `json:"libraryUid"`
 	Status         string `json:"status"`
-	StartDate      string `json:"start_date"`
-	TillDate       string `json:"till_date"`
+	StartDate      string `json:"startDate"`
+	TillDate       string `json:"tillDate"`
 }
 
 type ReservationsListResponse struct {
