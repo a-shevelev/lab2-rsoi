@@ -7,7 +7,7 @@ import (
 type CreateReservationRequest struct {
 	BookUID    string `json:"bookUid" binding:"required"`
 	LibraryUID string `json:"libraryUid" binding:"required"`
-	TillDate   string `json:"tillUid" binding:"required,datetime=2006-01-02"`
+	TillDate   string `json:"tillDate" binding:"required,datetime=2006-01-02"`
 }
 
 type ReservationResponse struct {

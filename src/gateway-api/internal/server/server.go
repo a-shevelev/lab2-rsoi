@@ -51,7 +51,7 @@ func (s *Server) initRoutes() error {
 	rateHandler := handlers.NewRatingHandler(rateService)
 	rateHandler.RegisterRoutes(v1)
 
-	reservationService := service.NewReservationService(s.ReservationClient, s.LibraryClient)
+	reservationService := service.NewReservationService(s.ReservationClient, s.LibraryClient, s.RatingClient)
 	reservationHandler := handlers.NewReservationHandler(reservationService)
 	reservationHandler.RegisterRoutes(v1)
 
