@@ -16,7 +16,9 @@ services:
 
   library-service:
 #    image: person_api:latest
-    build: ./src/library-system
+    build:
+      context: ./src/library-system
+      dockerfile: Dockerfile
     container_name: library-service
     ports:
       - "8050:8050"
@@ -30,7 +32,9 @@ services:
 
   rating-service:
     #    image: person_api:latest
-    build: ./src/rating-system
+    build:
+      context: ./src/rating-system
+      dockerfile: Dockerfile
     container_name: rating-service
     ports:
       - "8060:8060"
@@ -44,7 +48,9 @@ services:
 
   reservation-service:
     #    image: person_api:latest
-    build: ./src/reservation-system
+    build:
+      context: ./src/reservation-system
+      dockerfile: Dockerfile
     container_name: reservation-service
     ports:
       - "8070:8070"
@@ -58,7 +64,9 @@ services:
 
   gateway-api:
     #    image: person_api:latest
-    build: ./src/gateway-api
+    build:
+      context: ./src/gateway-api
+      dockerfile: Dockerfile
     container_name: gateway-api
     ports:
       - "8080:8080"
