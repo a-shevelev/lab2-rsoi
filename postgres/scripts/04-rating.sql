@@ -7,3 +7,6 @@ CREATE TABLE IF NOT EXISTS rating
     stars    INT NOT NULL
     CHECK (stars BETWEEN 0 AND 100)
     );
+
+INSERT INTO rating (username, stars)
+VALUES ('Test Max', 75);
