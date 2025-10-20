@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"net/http"
 	handlers "reservation-system/internal/handlers/http/v1"
 	"reservation-system/internal/repo"
 	"reservation-system/internal/service"
@@ -13,7 +14,7 @@ import (
 )
 
 type Server struct {
-	Host      string `envconfig:"HOST" required:"true"`
+	Host      string `envconfig:"HOST"`
 	Port      int    `envconfig:"PORT" required:"true"`
 	DB        postgres.Client
 	GinRouter *gin.Engine
@@ -37,6 +38,10 @@ func New(dbc postgres.Client, host string, port int) (*Server, error) {
 func (s *Server) initRoutes() error {
 	s.GinRouter.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{"msg": "pong"})
+	})
+
+	s.GinRouter.GET("/manage/health", func(c *gin.Context) {
+		c.Status(http.StatusOK)
 	})
 
 	v1 := s.GinRouter.Group("/api/v1")
