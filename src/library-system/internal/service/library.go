@@ -22,7 +22,7 @@ type LibraryService struct {
 	repo repo.LibraryRepository
 }
 
-func NewLibraryService(r repo.LibraryRepository) *LibraryService {
+func NewLibraryService(r repo.LibraryRepository) LibraryServiceIface {
 	return &LibraryService{repo: r}
 }
 
