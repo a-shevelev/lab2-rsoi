@@ -39,9 +39,10 @@ jobs:
 
       - name: Run Unit Tests
         run: |
-            go test ./src/rating-system/internal/service
-            go test ./src/reservation-system/internal/service
-            go test ./src/library-system/internal/service
+          cd src/rating-system && go test ./internal/service/...
+          cd ../reservation-system && go test ./internal/service/...
+          cd ../library-system && go test ./internal/service/...
+
       - name: Run API Tests
         uses: matt-ball/newman-action@master
         with:
