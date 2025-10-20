@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"net/http"
 
 	"rating-system/internal/handlers/http/v1"
 	"rating-system/internal/repo"
@@ -14,7 +15,7 @@ import (
 )
 
 type Server struct {
-	Host      string `envconfig:"HOST" required:"true"`
+	Host      string `envconfig:"HOST"`
 	Port      int    `envconfig:"PORT" required:"true"`
 	DB        postgres.Client
 	GinRouter *gin.Engine
@@ -37,21 +38,16 @@ func New(dbc postgres.Client, host string, port int) (*Server, error) {
 
 func (s *Server) initRoutes() error {
 	s.GinRouter.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{"msg": "pong"})
+		c.JSON(http.StatusOK, gin.H{"msg": "pong"})
+	})
+	s.GinRouter.GET("/manage/health", func(c *gin.Context) {
+		c.Status(http.StatusOK)
 	})
 
 	v1 := s.GinRouter.Group("/api/v1")
 
 	rateRepo := repo.NewRatingRepo(s.DB)
-	//ctx := context.Background()
-	//log.Info(library.FetchLibrariesByCity(ctx, "Москва", 1, 1))
-	//log.Info(library.FetchBooksByLibrary(ctx, "83575e12-7ce0-48ee-9931-51919ff3c9ee", true, 1, 1))
-	//log.Info(library.IncreaseCount(ctx, 1, 1))
-
 	rateService := service.NewRatingService(rateRepo)
-	//libraryService := service.NewLibraryService(library)
-	//libraryHandler := handlers.New(libraryService)
-	//libraryHandler.RegisterRoutes(v1)
 	rateHandler := handlers.New(rateService)
 	rateHandler.RegisterRoutes(v1)
 

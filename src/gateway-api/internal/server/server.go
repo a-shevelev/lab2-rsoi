@@ -41,6 +41,10 @@ func (s *Server) initRoutes() error {
 		c.JSON(http.StatusOK, gin.H{"msg": "pong"})
 	})
 
+	s.GinRouter.GET("/manage/health", func(c *gin.Context) {
+		c.Status(http.StatusOK)
+	})
+
 	v1 := s.GinRouter.Group("/api/v1")
 
 	libService := service.NewLibraryService(s.LibraryClient)
